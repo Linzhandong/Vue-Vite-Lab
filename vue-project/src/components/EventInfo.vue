@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Event } from '@/types'
+import EventInfo from './EventInfo.vue'
 
 defineProps<{
   event: Event
@@ -7,20 +8,24 @@ defineProps<{
 </script>
 
 <template>
-  <div class="event-info">
-    <div class="category">{{ event.category }}</div>
-    <div class="organizer">{{ event.organizer }}</div>
+  <div class="event-card">
+    <h2>{{ event.title }}</h2>
+    <span>@{{ event.time }} on {{ event.date }}</span>
+    <EventInfo :event="event" />
   </div>
 </template>
 
 <style scoped>
-.event-info {
-  font-size: 14px;
-  text-align: right;
-  margin-top: 10px;
+.event-card {
+  padding: 20px;
+  width: 250px;
+  cursor: pointer;
+  border: 1px solid #39495c;
+  margin-bottom: 18px;
 }
 
-.category, .organizer {
-  font-size: 14px;
+.event-card:hover {
+  transform: scale(1.01);
+  box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.2);
 }
 </style>
