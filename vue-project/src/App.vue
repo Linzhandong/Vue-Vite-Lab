@@ -18,7 +18,6 @@ import { RouterLink, RouterView } from 'vue-router'
   </div>
 </template>
 
-<!-- 样式保持不变 -->
 
 
 <style>
