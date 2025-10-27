@@ -1,3 +1,4 @@
+// types.ts
 export interface Event {
   id: number
   category: string
@@ -15,4 +16,12 @@ export interface Student {
   name: string
   surname: string
   gpa: number
+}
+
+export interface MessageState {
+  message: string
+}
+
+export interface EventState {
+  event: Event | null
 }

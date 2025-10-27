@@ -1,35 +1,10 @@
+<!-- views/event/LayoutView.vue -->
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { type Event } from '@/types'
-import EventService from '@/services/EventService'
-import { useRouter } from 'vue-router'
+import { useEventStore } from '@/stores/event'
+import { storeToRefs } from 'pinia'
 
-const event = ref<Event | null>(null)
-const props = defineProps({
-  id: {
-    type: String,
-    required: true
-  }
-})
-
-const router = useRouter()
-
-onMounted(() => {
-  EventService.getEvent(parseInt(props.id))
-    .then((response) => {
-      event.value = response.data
-    })
-    .catch((error) => {
-      if (error.response && error.response.status === 404) {
-        router.push({
-          name: '404-resource-view',
-          params: { resource: 'event' }
-        })
-      } else {
-        router.push({ name: 'network-error-view' })
-      }
-    })
-})
+const store = useEventStore()
+const { event } = storeToRefs(store)
 </script>
 
 <template>
@@ -42,4 +17,36 @@ onMounted(() => {
     </nav>
     <RouterView :event="event" />
   </div>
+  <div v-else>
+    <p>Loading event...</p>
+  </div>
 </template>
+
+<style scoped>
+nav {
+  margin: 20px 0;
+  padding: 10px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+nav a {
+  margin: 0 10px;
+  text-decoration: none;
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+nav a.router-link-exact-active {
+  color: #42b983;
+  font-weight: bold;
+}
+
+nav a:hover {
+  color: #42b983;
+}
+
+h1 {
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+</style>

@@ -1,18 +1,23 @@
+<!-- App.vue -->
 <script setup lang="ts">
 import { RouterLink, RouterView, useRouter } from 'vue-router'
 import { ref, watch } from 'vue'
+import { useMessageStore } from '@/stores/message'
+import { storeToRefs } from 'pinia'
 
 const router = useRouter()
-const pageSize = ref(2)
+const pageSize = ref(3) // 默认值改为 3
+const store = useMessageStore()
+const { message } = storeToRefs(store)
 
 // 当页面大小改变时，更新路由
 watch(pageSize, (newSize) => {
-  router.push({ 
-    name: 'event-list-view', 
-    query: { 
+  router.push({
+    name: 'event-list-view',
+    query: {
       page: 1, // 重置到第一页
-      size: newSize 
-    } 
+      size: newSize,
+    },
   })
 })
 </script>
@@ -20,6 +25,9 @@ watch(pageSize, (newSize) => {
 <template>
   <div id="layout">
     <header>
+      <div id="flashMessage" v-if="message">
+        <h4>{{ message }}</h4>
+      </div>
       <div class="wrapper">
         <nav>
           <RouterLink :to="{ name: 'event-list-view' }">Event</RouterLink> |
@@ -29,9 +37,10 @@ watch(pageSize, (newSize) => {
         <div class="page-size-selector">
           <label for="pageSize">Events per page: </label>
           <select id="pageSize" v-model="pageSize">
-            <option value="2">2</option>
-            <option value="4">4</option>
+            <option value="3">3</option>
+            <!-- 改为 3 -->
             <option value="6">6</option>
+            <option value="9">9</option>
           </select>
         </div>
       </div>
@@ -75,5 +84,18 @@ h2 {
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 4px;
+}
+
+@keyframes yellofade {
+  from {
+    background-color: yellow;
+  }
+  to {
+    background-color: transparent;
+  }
+}
+
+#flashMessage {
+  animation: yellofade 3s ease-in-out;
 }
 </style>

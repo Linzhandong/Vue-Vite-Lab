@@ -1,24 +1,33 @@
+<!-- views/event/RegisterView.vue -->
 <script setup lang="ts">
 import { toRefs } from 'vue'
 import { type Event } from '@/types'
 import { useRouter } from 'vue-router'
+import { useMessageStore } from '@/stores/message'
 
 const props = defineProps<{
   event: Event
-  id: String
+  id: string
 }>()
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const { event } = toRefs(props)
 const router = useRouter()
+const store = useMessageStore()
 
 const register = () => {
   // 模拟注册 API 调用
   console.log('Registering for event:', event.value?.title)
-  
-  // 如果注册 API 调用成功
-  // 返回事件详情页面
-  router.push({ name: 'event-detail-view' })
+
+  // 设置闪存消息
+  store.updateMessage('You are successfully registered for ' + props.event.title)
+
+  // 3秒后重置消息
+  setTimeout(() => {
+    store.resetMessage()
+  }, 3000)
+
+  // 导航到事件详情页面
+  router.push({ name: 'event-detail-view', params: { id: props.event.id.toString() } })
 }
 </script>
 
@@ -26,23 +35,23 @@ const register = () => {
   <div class="register-view">
     <h2>Register for {{ event.title }}</h2>
     <p>Register event here - Fill out the registration form below:</p>
-    
+
     <div class="registration-form">
       <div class="form-group">
         <label for="name">Full Name:</label>
-        <input type="text" id="name" placeholder="Enter your full name">
+        <input type="text" id="name" placeholder="Enter your full name" />
       </div>
-      
+
       <div class="form-group">
         <label for="email">Email:</label>
-        <input type="email" id="email" placeholder="Enter your email">
+        <input type="email" id="email" placeholder="Enter your email" />
       </div>
-      
+
       <div class="form-group">
         <label for="phone">Phone:</label>
-        <input type="tel" id="phone" placeholder="Enter your phone number">
+        <input type="tel" id="phone" placeholder="Enter your phone number" />
       </div>
-      
+
       <button @click="register" class="register-btn">Complete Registration</button>
     </div>
   </div>
