@@ -27,6 +27,7 @@ watch(pageSize, (newSize) => {
       <div id="flashMessage" class="animate-fade" v-if="message">
         <h4>{{ message }}</h4>
       </div>
+      <h1>Deploy with Vercel</h1>
       <div class="wrapper">
         <nav class="py-6">
           <RouterLink
