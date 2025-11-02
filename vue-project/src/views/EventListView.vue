@@ -16,7 +16,6 @@ const props = defineProps({
     required: true,
   },
   size: {
-    // 恢复 size prop
     type: Number,
     required: true,
   },
@@ -26,16 +25,16 @@ const page = computed(() => props.page)
 const size = computed(() => props.size)
 
 const hasNextPage = computed(() => {
-  const totalPages = Math.ceil(totalEvents.value / size.value)
+  const totalPages = Math.ceil(totalEvents.value / Number(size.value))
   return page.value < totalPages
 })
 
 onMounted(() => {
   watchEffect(() => {
-    EventService.getEvents(size.value, page.value)
+    EventService.getEvents(Number(size.value), Number(page.value))
       .then((response) => {
         events.value = response.data
-        totalEvents.value = response.headers['x-total-count']
+        totalEvents.value = parseInt(response.headers['x-total-count'])
       })
       .catch((error) => {
         console.error('There was an error!', error)
@@ -45,11 +44,11 @@ onMounted(() => {
 })
 </script>
 
-<!-- EventListView.vue -->
 <template>
   <div>
     <h1>Events For Good</h1>
-    <div class="events">
+    <!-- 更新这一行：使用 TailwindCSS 类 -->
+    <div class="flex flex-col items-center">
       <EventCard v-for="event in events" :key="event.id" :event="event" />
     </div>
     <div class="pagination">
@@ -74,12 +73,7 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.events {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
+/* 删除 .events 样式，只保留分页样式 */
 .pagination {
   display: flex;
   width: 290px;
