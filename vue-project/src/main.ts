@@ -4,10 +4,10 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
-
-// 添加 NProgress CSS
+import { inject } from '@vercel/analytics'
 import 'nprogress/nprogress.css'
 
+inject()
 const app = createApp(App)
 const pinia = createPinia()
 

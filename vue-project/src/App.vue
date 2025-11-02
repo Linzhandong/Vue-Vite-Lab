@@ -31,6 +31,7 @@ watch(pageSize, (newSize) => {
 
 <template>
   <div class="text-center font-sans text-gray-700 antialiased">
+    <SpeedInsights />
     <header>
       <div id="flashMessage" class="animate-fade" v-if="message">
         <h4>{{ message }}</h4>
