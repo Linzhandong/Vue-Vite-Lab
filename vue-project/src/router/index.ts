@@ -1,5 +1,5 @@
 // router/index.ts
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'  // 改为 createWebHashHistory
 import EventListView from '@/views/EventListView.vue'
 import AboutView from '@/views/AboutView.vue'
 import StudentsView from '@/views/StudentsView.vue'
@@ -14,7 +14,7 @@ import EventService from '@/services/EventService'
 import { useEventStore } from '@/stores/event'
 
 const router = createRouter({
-  history: createWebHistory(),//import.meta.env.BASE_URL
+  history: createWebHashHistory(),  // 改为 hash 模式，移除 BASE_URL
   routes: [
     {
       path: '/',
@@ -96,16 +96,7 @@ const router = createRouter({
       name: 'not-found',
       component: NotFoundView,
     },
-    // router/index.ts - 更新 event-list-view 路由
-    {
-      path: '/',
-      name: 'event-list-view',
-      component: EventListView,
-      props: (route) => ({
-        page: parseInt(route.query.page?.toString() || '1'),
-        size: parseInt(route.query.size?.toString() || '3'),
-      }),
-    },
+    // 删除重复的 event-list-view 路由
   ],
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
