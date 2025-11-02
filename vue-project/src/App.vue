@@ -1,7 +1,7 @@
 <!-- App.vue -->
 <script setup lang="ts">
 import { RouterLink, RouterView, useRouter } from 'vue-router'
-import { ref, watch } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import { useMessageStore } from '@/stores/message'
 import { storeToRefs } from 'pinia'
 
@@ -10,11 +10,19 @@ const pageSize = ref(3)
 const store = useMessageStore()
 const { message } = storeToRefs(store)
 
+// 添加测试
+onMounted(() => {
+  console.log('🚀 App.vue mounted successfully!')
+  console.log('📦 Message store:', store)
+  console.log('🔗 Router:', router)
+})
+
+// 当页面大小改变时，更新路由
 watch(pageSize, (newSize) => {
   router.push({
     name: 'event-list-view',
     query: {
-      page: 1,
+      page: 1, // 重置到第一页
       size: newSize,
     },
   })
@@ -68,5 +76,4 @@ watch(pageSize, (newSize) => {
 </template>
 
 <style>
-
 </style>
